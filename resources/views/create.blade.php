@@ -14,6 +14,14 @@
     </style>
 </head>
 <body>
+    @if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <div class="container">
         <form action="{{ route('store') }}" method="POST">
             @csrf
@@ -24,7 +32,7 @@
                             <div class="form-group col-md-10">
                                 <label class="form-label" for="company_name">Company Name</label>
                                 <input type="text" class="form-control" name="c_name[]" placeholder="Enter the company name">
-                                @error('c_name.0')
+                                @error('c_name.*')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -36,14 +44,14 @@
                             <div class="form-group col-md-5">
                                 <label class="form-label" for="product_name">Product Name</label>
                                 <input type="text" class="form-control" name="p_name[0][]" placeholder="Enter the product name">
-                                @error('p_name.0.0')
+                                @error('p_name.*.*')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-group col-md-5">
                                 <label class="form-label" for="product_type">Product Type</label>
                                 <input type="text" class="form-control" name="p_type[0][]" placeholder="Enter the product type">
-                                @error('p_type.0.0')
+                                @error('p_type.*.*')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -151,13 +159,6 @@
                 $(this).closest('.companyGroup').remove();
             })
 
-            {{--  function addProduct(companyIndex){
-                var productHTML = $('.productTemplate').html().replace(/INDEX/g, companyIndex);
-                $('body').find('.companyGroup').eq(companyIndex).find('.productWrapper').append(projectHTML);
-            }
-            $('body').on ('click', '.addProduct', function(){
-                addProduct();
-            });  --}}
             $('body').on('click', '.addProduct', function () {
 
                 let companyGroup = $(this).closest('.companyGroup');
@@ -170,5 +171,7 @@
 
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
